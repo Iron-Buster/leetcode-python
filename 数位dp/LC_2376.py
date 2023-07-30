@@ -21,15 +21,14 @@ class Solution:
             ans = 0
             if not isNum:
                 ans += dfs(i + 1, mask, False, False)  # 当前位不填数字
-            low = 0 if isNum else 1   # 前导零情况
+            low = 0 if isNum else 1  # 前导零情况
             up = int(s[i]) if isLimit else 9
-            for d in range(low, up+1):
-                if mask >> d & 1 == 0:                 # 集合mask中没有数字d
+            for d in range(low, up + 1):
+                if mask >> d & 1 == 0:  # 集合mask中没有数字d
                     ans += dfs(i + 1, mask | (1 << d), isLimit and d == up, True)
             return ans
         return dfs(0, 0, True, False)
 
 
 if __name__ == '__main__':
-
     print("ok")
