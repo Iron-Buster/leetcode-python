@@ -22,13 +22,15 @@ class Solution:
                 return 1 if isNum else 0
             ans = 0
             if not isNum:
-                ans += dfs(i + 1, False, False)     # 选择不填
+                ans += dfs(i + 1, False, False)  # 选择不填
             up = s[i] if isLimit else '9'
             for d in digits:
-                if d > up: break                    # 超过限制
-                ans += dfs(i + 1, isLimit and d == up, True)   # 填数字d
+                if d > up: break  # 超过限制
+                ans += dfs(i + 1, isLimit and d == up, True)  # 填数字d
             return ans
+
         return dfs(0, True, False)
+
 
 if __name__ == '__main__':
     # Solution().atMostNGivenDigitSet()
