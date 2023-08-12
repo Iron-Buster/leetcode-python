@@ -7,21 +7,23 @@
 # 题目数据保证答案符合 32 位带符号整数范围。
 from functools import cache
 
-# TODO
+
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i >= len(s):
-                return 0
-            if j == len(s):
-                return 1
+            if j == len(t): return 1
+            if i == len(s): return 0
             ans = 0
-            ans += dfs(i + 1, j)            # 不选
-            if s[i] == t[j]:
-                ans += dfs(i + 1, j + 1)    # 选
+            if s[i] != t[j]:
+                ans += dfs(i + 1, j)
+            else:
+                ans += dfs(i + 1, j + 1)
+                ans += dfs(i + 1, j)
             return ans
         return dfs(0, 0)
 
+
 if __name__ == '__main__':
-    print("ok")
+    ans = Solution().numDistinct("babgbag", "bag")
+    print(ans)
