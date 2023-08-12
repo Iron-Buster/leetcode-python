@@ -21,5 +21,6 @@ class Solution:
             ans = max(ans, i - j + 1)
         return ans
 
+
 if __name__ == '__main__':
     print("ok")
