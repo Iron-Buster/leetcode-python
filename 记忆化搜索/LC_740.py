@@ -1,3 +1,4 @@
+from collections import Counter
 from functools import cache
 from typing import List
 
@@ -16,18 +17,11 @@ from typing import List
 
 class Solution:
     def deleteAndEarn(self, nums: List[int]) -> int:
-        # TODO
-        st = set(nums)
+        cnt = Counter(nums)
         @cache
         def dfs(i: int) -> int:
-            if i == len(nums): return 0
-            ans = 0
-            if nums[i] + 1 or nums[i] - 1 in st:
-                ans += dfs(i + 1)
-            else:
-                ans += max(dfs(i + 1), dfs(i + 1) + nums[i])
-            return ans
-        return dfs(0)
+            return 0 if i < 0 else max(cnt[i] * i + dfs(i - 2), dfs(i - 1))
+        return dfs(max(nums))
 
 
 if __name__ == '__main__':
