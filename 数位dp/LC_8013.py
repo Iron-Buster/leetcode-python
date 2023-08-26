@@ -11,7 +11,6 @@
 # 偶数数位的数目与奇数数位的数目相同。
 # 这个整数可以被 k 整除。
 # 请你返回范围 [low, high] 中美丽整数的数目。
-import bisect
 from functools import cache
 
 
