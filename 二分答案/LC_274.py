@@ -23,3 +23,6 @@ class Solution:
             else:
                 r = mid - 1
         return l
+
+if __name__ == '__main__':
+    print("Ok")
