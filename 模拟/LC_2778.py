@@ -8,6 +8,7 @@
 # 对 nums 中的元素 nums[i] 而言，如果 n 能够被 i 整除，即 n % i == 0 ，则认为 num[i] 是一个 特殊元素 。
 #
 # 返回 nums 中所有 特殊元素 的 平方和 。
+
 from typing import List
 
 
