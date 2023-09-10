@@ -1,2 +1,2 @@
 # leetcode-python
-py is best lang in leetcode ！
+当前是python写题最舒服哇!
