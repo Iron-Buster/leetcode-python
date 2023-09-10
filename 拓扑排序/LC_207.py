@@ -33,3 +33,5 @@ class Solution:
                 if rd[v] == 0: q.append(v)
         return numCourses == 0
         
+if __name__ == '__main__':
+    print("ok")
