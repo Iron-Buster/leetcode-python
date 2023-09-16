@@ -11,6 +11,9 @@
 # 更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。nums 的其余元素与 nums 的大小不重要。
 # 返回 k 
 
+from typing import List
+
+
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         j = 0
