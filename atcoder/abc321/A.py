@@ -103,17 +103,12 @@ def PF(a):
 
 
 def solve():
-    k = II()
-    ans = []
-    def dfs(x: int, s: int) -> None:
-        s = s * 10 + x
-        ans.append(s)
-        for i in range(x - 1, -1, -1):
-            dfs(i, s)
-        s /= 10
-    for i in range(9, -1, -1):
-        dfs(i, 0)
-    ans.sort()
-    print(ans[k])
+    s = I()
+    for i in range(1, len(s)):
+        if s[i] >= s[i - 1]:
+            print("No")
+            return
+    print("Yes")
 
 solve()
+

@@ -1,5 +1,6 @@
 
 
+
 from itertools import *
 from collections import *
 from math import *
@@ -103,17 +104,20 @@ def PF(a):
 
 
 def solve():
-    k = II()
-    ans = []
-    def dfs(x: int, s: int) -> None:
-        s = s * 10 + x
-        ans.append(s)
-        for i in range(x - 1, -1, -1):
-            dfs(i, s)
-        s /= 10
-    for i in range(9, -1, -1):
-        dfs(i, 0)
-    ans.sort()
-    print(ans[k])
+    n = II()
+    x = II()
+    a = LII()
+    mx = max(a)
+    mn = min(a)
+    tot = sum(a) - mx - mn
+    need = x - tot
+    if need > mx:
+        print(-1)
+    elif need <= mn:
+        print(0)
+    else:
+        print(need)
 
 solve()
+
+
