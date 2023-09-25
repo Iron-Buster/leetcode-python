@@ -101,6 +101,9 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
+'''
+    存在一个人的s[i] >= s[0] 并且 e[i] >= e[0] 说明无法让第一个人获胜
+'''
 
 def solve():
     t = II()
