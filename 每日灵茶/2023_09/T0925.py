@@ -1,28 +1,4 @@
-'''
-    https://atcoder.jp/contests/abc248/tasks/abc248_d
 
-    输入 n(1≤n≤2e5) 和长为 n 的数组 a(1≤a[i]≤n)，下标从 1 开始。
-    然后输入 q 个询问，每个询问输入 L R (1≤L≤R≤n) 和 x(1≤x≤n)。
-    对每个询问，输出有多少个下标 i 在 [L,R] 内的 a[i]，满足 a[i]=x。
-
-    输入
-    5
-    3 1 4 1 5
-    4
-    1 5 1
-    2 4 3
-    1 5 2
-    1 3 3
-    输出
-    2
-    0
-    0
-    1
-
-    【灵茶の试炼】往期题目&题解汇总
-    https://docs.qq.com/sheet/DWGFoRGVZRmxNaXFz
-
-'''
 
 from itertools import *
 from collections import *
@@ -125,42 +101,42 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-    #     D - Range Count Query
-    # https://atcoder.jp/contests/abc248/tasks/abc248_d
+# https://atcoder.jp/contests/abc138/tasks/abc138_d
 
-    # 输入 n(1≤n≤2e5) 和长为 n 的数组 a(1≤a[i]≤n)，下标从 1 开始。
-    # 然后输入 q 个询问，每个询问输入 L R (1≤L≤R≤n) 和 x(1≤x≤n)。
-    # 对每个询问，输出有多少个下标 i 在 [L,R] 内的 a[i]，满足 a[i]=x。
+# 输入 n(2≤n≤2e5) q(1≤q≤2e5) 表示一个 n 个点的树（节点编号从 1 开始，根节点为 1）。
+# 然后输入 n-1 条边（每行两个数）。
+# 然后输入 q 个操作，每个操作输入 p(1≤p≤n) x(1≤x≤1e4)，表示把子树 p 内的所有节点值都加 x。（一开始所有节点值均为 0）
+# 输出最终每个节点的节点值。（按节点编号从小到大输出）
 
-    # 输入
-    #     5
-    #     3 1 4 1 5
-    #     4
-    #     1 5 1
-    #     2 4 3
-    #     1 5 2
-    #     1 3 3
-    # 输出
-    #     2
-    #     0
-    #     0
-    #     1
+'''
+    只需要记录节点 p 的节点值增加了多少。
+    然后从 1 开始 DFS 这棵树, DFS 的同时累加从 1 到当前节点 x 的这条路径上的节点值之和, 即为节点 x 的最终节点值。
+    (类似 lazy 线段树的懒标记下传 push down)
+    https://atcoder.jp/contests/abc138/submissions/45500929
+'''
 
-    #     【灵茶の试炼】往期题目&题解汇总
-    # https://docs.qq.com/sheet/DWGFoRGVZRmxNaXFz
 
 def solve():
-    n = II()
-    a = LII()
-    pos = defaultdict(list)
-    for i, v in enumerate(a):
-        pos[v].append(i + 1)
-    q = II()
-    for _ in range(q):
-        l, r, x = MI()
-        s = pos[x]
-        L = bisect_left(s, l)
-        R = bisect_right(s, r)
-        print(R - L)
-
+    N, Q = MI()
+    g = defaultdict(list)
+    for _ in range(N - 1):
+        u, v = MI()
+        g[u].append(v)
+        g[v].append(u)
+    val = [0] * (N + 1)       # 记录节点p增加了多少
+    for _ in range(Q):
+        p, x = MI()
+        val[p] += x
+    # dfs对路径上的节点增量进行累加
+    def dfs(u: int, fa: int) -> None:
+        val[u] += val[fa]
+        for v in g[u]:
+            if v == fa: continue
+            dfs(v, u)
+    dfs(1, 0)
+    print(*val[1:])
 solve()
+
+
+
+

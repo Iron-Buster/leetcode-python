@@ -1,28 +1,3 @@
-'''
-    https://atcoder.jp/contests/abc248/tasks/abc248_d
-
-    输入 n(1≤n≤2e5) 和长为 n 的数组 a(1≤a[i]≤n)，下标从 1 开始。
-    然后输入 q 个询问，每个询问输入 L R (1≤L≤R≤n) 和 x(1≤x≤n)。
-    对每个询问，输出有多少个下标 i 在 [L,R] 内的 a[i]，满足 a[i]=x。
-
-    输入
-    5
-    3 1 4 1 5
-    4
-    1 5 1
-    2 4 3
-    1 5 2
-    1 3 3
-    输出
-    2
-    0
-    0
-    1
-
-    【灵茶の试炼】往期题目&题解汇总
-    https://docs.qq.com/sheet/DWGFoRGVZRmxNaXFz
-
-'''
 
 from itertools import *
 from collections import *
@@ -125,42 +100,64 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-    #     D - Range Count Query
-    # https://atcoder.jp/contests/abc248/tasks/abc248_d
 
-    # 输入 n(1≤n≤2e5) 和长为 n 的数组 a(1≤a[i]≤n)，下标从 1 开始。
-    # 然后输入 q 个询问，每个询问输入 L R (1≤L≤R≤n) 和 x(1≤x≤n)。
-    # 对每个询问，输出有多少个下标 i 在 [L,R] 内的 a[i]，满足 a[i]=x。
+    # https://atcoder.jp/contests/abc301/tasks/abc301_d
+
+    # 输入长度 ≤60 的字符串 s，只包含 '0'，'1' 和 '?'。
+    # 输入 n(1≤n≤1e18)。
+    # 你需要把 s 中的 ? 替换成 0 或 1，从而得到一个二进制数 x。
+    # 问：不超过 n 的最大 x 是多少？
+    # 以十进制形式输出这个最大值。
+    # 如果不存在这样的 x，输出 -1。
 
     # 输入
-    #     5
-    #     3 1 4 1 5
-    #     4
-    #     1 5 1
-    #     2 4 3
-    #     1 5 2
-    #     1 3 3
-    # 输出
+    #     ?0?
     #     2
-    #     0
-    #     0
-    #     1
+    # 输出 1
 
-    #     【灵茶の试炼】往期题目&题解汇总
+    # 输入
+    #     101
+    #     4
+    # 输出 -1
+
+    # 输入
+    #     ?0?
+    #     1000000000000000000
+    # 输出 5
+
+    #         【灵茶の试炼】往期题目&题解汇总
     # https://docs.qq.com/sheet/DWGFoRGVZRmxNaXFz
+
+
+
+'''
+    把 ? 都替换成 0, 如果此时 x > n, 则输出 -1。
+    然后从左到右遍历每个 ?，如果把这个 ? 替换成 1, 右侧 ? 替换成 0 后，满足 x <= n，那么这个 ? 一定要替换成 1，否则这个 ? 一定要替换成 0。
+    https://atcoder.jp/contests/abc301/submissions/45500660
+
+'''
 
 def solve():
     n = II()
-    a = LII()
-    pos = defaultdict(list)
-    for i, v in enumerate(a):
-        pos[v].append(i + 1)
-    q = II()
-    for _ in range(q):
-        l, r, x = MI()
-        s = pos[x]
-        L = bisect_left(s, l)
-        R = bisect_right(s, r)
-        print(R - L)
+    s = I()
+    val = 0
+    for i in range(len(s)):
+        if s[i] == '1': 
+            val = (val << 1) + 1
+        else:
+            val = val << 1
+        if val > n:
+            print(-1)
+            return
+        for i in range(len(s)):
+            if s[i] == '?':
+                tmp = val + (1 << (len(s) - i - 1))
+                if tmp <= n:
+                    val = tmp
+        print(val) 
 
 solve()
+
+
+
+
