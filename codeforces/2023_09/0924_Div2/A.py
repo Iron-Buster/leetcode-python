@@ -101,29 +101,23 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# 题目大意
-# 给定两个数组a,b和一个数p，各从中取一个数x,y，得到贡献 min(x+y,p)
-# 问所有取法的贡献和
-
-'''
-    对b数组排序, 枚举a数组,
-    小于 p - a的b 的贡献是p, 其余贡献是a + b
-    二分找这个界限, 分别计算这两类的贡献和
-    p - a < b -> p < a + b -> p
-'''
 
 def solve():
-    N, M, P = MI()
-    a = LII()
-    b = LII()
-    b.sort()
-    ans = 0
-    s = PF(b)                          # b数组的前缀和
-    for i in range(N):
-        low = bisect_left(b, P - a[i])
-        ans += (M - low) * P           # 右边的贡献
-        ans += a[i] * low + s[low]     # 左边的贡献
-    print(ans)
+    t = II()
+    for _ in range(t):
+        n = II()
+        s = [0] * n
+        e = [0] * n
+        for i in range(n):
+            s[i], e[i] = MI()
+        ok = True
+        for i in range(1, n):
+            if s[i] >= s[0] and e[i] >= e[0]:
+                ok = False
+        if ok:
+            print(s[0])
+        else:
+            print(-1)
 
 solve()
 
