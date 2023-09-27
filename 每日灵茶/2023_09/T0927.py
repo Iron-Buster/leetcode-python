@@ -1,3 +1,4 @@
+
 from itertools import *
 from collections import *
 from math import *
@@ -99,22 +100,44 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# 二分答案
+
+# https://atcoder.jp/contests/abc098/tasks/arc098_b
+
+# 输入 n(1≤n≤2e5) 和长为 n 的数组 a(0≤a[i]<2^20)。
+# a 有多少个非空连续子数组，满足元素和等于元素异或和？
+
+# 思考：改成子序列要怎么做？
+
+
+'''
+    这个等式意味着什么？
+    意味着二进制加法不能有任何进位，否则等式右边一定大于左边。
+
+    没有任何进位相当于什么？
+    相当于子数组中的任意两个数，同一个比特位上不能都是 1, 也就是说, 任意两个数的按位与(AND)为 0。
+
+    这题就是：
+    2401. 最长优雅子数组  
+
+    可以用滑动窗口做到 O(n)，请看题解：
+    暴力枚举 / 双指针 
+
+    https://atcoder.jp/contests/abc098/submissions/45104677
+'''
 
 def solve():
-    t = II()
-    for _ in range(t):
-        n, x = MI()
-        a = LII()
-        tot = 0
-        L, R = 1, 2000000001
-        while L < R:
-            mid = L + R + 1 >> 1
-            tot = 0
-            for h in a:
-                tot += max(mid - h, 0)
-            if tot <= x: L = mid
-            else: R = mid - 1
-        print(L)
-solve() 
+    n = II()
+    a = LII()
+    ans = j = mask = 0
+    for i, x in enumerate(a):
+        while mask & x:     # 有交集
+            mask ^= a[j]    # 从mask集合去掉 a[j]
+            j += 1
+        mask |= x           # 把x并入mask中
+        ans += i - j + 1
+    print(ans)
+
+def main():
+    solve()
+main()
 

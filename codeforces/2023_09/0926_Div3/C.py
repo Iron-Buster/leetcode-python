@@ -1,3 +1,4 @@
+
 from itertools import *
 from collections import *
 from math import *
@@ -99,22 +100,23 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# 二分答案
+# C. Vasilije in Cacak
+# 从1到n中取出k个元素，两两互不相同，问它们的和能否等于x
+
+# ans -> 求取最小的k个，和最大的k个。看x是否在这个区间范围。
 
 def solve():
+    n, k, x = MI()
+    L = (k + 1) * k // 2                    # 等差数列求和 算出最小的k个
+    R = (n - k + 1 + n) * k // 2            # 等差数列求和 算出最大的k个
+    if x >= L and x <= R:
+        print('YES')
+    else:
+        print('NO')
+
+def main():
     t = II()
     for _ in range(t):
-        n, x = MI()
-        a = LII()
-        tot = 0
-        L, R = 1, 2000000001
-        while L < R:
-            mid = L + R + 1 >> 1
-            tot = 0
-            for h in a:
-                tot += max(mid - h, 0)
-            if tot <= x: L = mid
-            else: R = mid - 1
-        print(L)
-solve() 
+        solve()
+main()
 
