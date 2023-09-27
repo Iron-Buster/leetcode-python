@@ -99,24 +99,23 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# https://atcoder.jp/contests/abc202/tasks/abc202_d
-
-# 输入 A B(1≤A,B≤30) K。
-# 在所有由恰好 A 个 'a' 和恰好 B 个 'b' 组成的字符串中，输出字典序第 K 小的字符串。
-# 例如 K=1 表示字典序最小的字符串。
-# K 的范围保证有解。
-
-
-# 输入 2 2 4
-# 输出 baab
-
-# 输入 30 30 118264581564861424
-# 输出 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaa
-
 
 def solve():
-    A, B, K = MI()
-    
+    t = II()
+    for _ in range(t):
+        n = II()
+        ans = [0] * (n + 1)
+        ans[1] = 6
+        ans[2] = 8
+        ans[3] = 12
+        for i in range(4, n + 1):
+            cur = ans[i - 1] + 1
+            while True:
+                val = ans[i - 2] + ans[i - 1]
+                if 3 * cur % val != 0 and (i - 2) % val != 0:
+                    break
+                cur += 1
+            ans[i] = cur
+        print(*ans[1:])
 solve()
-
 
