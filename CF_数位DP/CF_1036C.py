@@ -99,24 +99,37 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# https://atcoder.jp/contests/abc202/tasks/abc202_d
+# 如果某个正整数的十进制表示中包含的非零数字不超过 3 位，我们就称它为经典整数。
+# 例如，数字 4、200000、10203 是优质数，而数字 4231、102306、7277420000 不是。
+# 给你一个线段 [L; R]。请数出x中L \le x \le R的整数x的个数。
+# 每个测试案例都包含多个片段，您需要分别解决每个片段的问题。
 
-# 输入 A B(1≤A,B≤30) K。
-# 在所有由恰好 A 个 'a' 和恰好 B 个 'b' 组成的字符串中，输出字典序第 K 小的字符串。
-# 例如 K=1 表示字典序最小的字符串。
-# K 的范围保证有解。
+'''
+    求区间[L,R]中数位上非0的数字个数不超过3个的 数字个数
+    数位DP -> 灵神模板
 
+'''
+def calc(s: str) -> int:
+    @cache
+    def dfs(i: int, isLimit: bool, cnt: int) -> int:
+        if i == len(s):
+            return cnt <= 3      
+        ans = 0
+        up = int(s[i]) if isLimit else 9
+        for d in range(up + 1):
+            if cnt > 3 and d != 0: continue
+            ans += dfs(i + 1, isLimit and d == up, cnt + (d != 0))
+        return ans
+    return dfs(0, True, 0)
 
-# 输入 2 2 4
-# 输出 baab
-
-# 输入 30 30 118264581564861424
-# 输出 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaa
-
-# TODO
 def solve():
-    A, B, K = MI()
-    
-solve()
+    L, R = MI()
+    ans = calc(str(R)) - calc(str(L - 1))
+    print(ans)
 
+def main():
+    t = II()
+    for _ in range(t):
+        solve()
+main()
 

@@ -99,24 +99,53 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# https://atcoder.jp/contests/abc202/tasks/abc202_d
+# 给您两个长度相等的字符串 a 和 b，其中只有字符 0 和/或 1；两个字符串都以字符 0 开始，以字符 1 结束。
 
-# 输入 A B(1≤A,B≤30) K。
-# 在所有由恰好 A 个 'a' 和恰好 B 个 'b' 组成的字符串中，输出字典序第 K 小的字符串。
-# 例如 K=1 表示字典序最小的字符串。
-# K 的范围保证有解。
+# 您可以执行以下操作任意次数（可能为零）：
 
+# 可以选择任意一个字符串，执行以下操作： 
+#   选择下标l,r使得s[l]==s[r]，并令l<i<r的所有元素，都为s[l]，即s[i]=s[l],l<i<r
+# 问，通过上述任意次操作，能否使原始的2个字符串，相等
 
-# 输入 2 2 4
-# 输出 baab
-
-# 输入 30 30 118264581564861424
-# 输出 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaa
-
-# TODO
+'''
+    枚举下标
+    判断是否存在下标, 使得a[i] = b[i] = 0 
+        (通过 l=0, r=i 可以使得前i个字符相等 并且后缀都相等 或者 a[i+1]=b[i+1]=1)
+    判断是否存在下标, 使得a[i] = b[i] = 0 
+        (通过 l=i, r=n 可以使得后n-i+1个字符相等 并且前缀都相等 或者 a[i-1]=b[i-1]=0)
+'''
 def solve():
-    A, B, K = MI()
-    
-solve()
-
+    a = I()
+    b = I()
+    n = len(a)
+    if n == 2:
+        print('YES')
+        return
+    pre = 0
+    suf = n - 1
+    while pre < n and a[pre] == b[pre]:
+        pre += 1
+    pre -= 1
+    while suf and a[suf] == b[suf]:
+        suf -= 1
+    suf += 1
+    ok = False
+    for i in range(1, n - 1):
+        if a[i] != b[i]:
+            continue
+        if a[i] == '0' and (suf <= i + 1 or (a[i + 1] == b[i + 1] and a[i + 1] == '1')):
+            ok = True
+            break
+        if a[i] == '1' and (pre >= i - 1 or (a[i - 1] == b[i - 1] and a[i - 1] == '0')):
+            ok = True
+            break
+    if ok:
+        print('YES')
+    else:
+        print('NO')
+def main():
+    t = II()
+    for _ in range(t):
+        solve()
+main()
 

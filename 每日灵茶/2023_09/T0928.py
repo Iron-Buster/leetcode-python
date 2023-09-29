@@ -99,24 +99,36 @@ def LGMI():
 def PF(a):
     return [0] + list(accumulate(a))
 
-# https://atcoder.jp/contests/abc202/tasks/abc202_d
+# https://atcoder.jp/contests/abc208/tasks/abc208_e
 
-# 输入 A B(1≤A,B≤30) K。
-# 在所有由恰好 A 个 'a' 和恰好 B 个 'b' 组成的字符串中，输出字典序第 K 小的字符串。
-# 例如 K=1 表示字典序最小的字符串。
-# K 的范围保证有解。
+# 输入 n(1≤n≤1e18) 和 k(1≤k≤1e9)。
+# 问：有多少个不超过 n 的正整数，其数位乘积不超过 k？ -> 数位DP
 
-
-# 输入 2 2 4
-# 输出 baab
-
-# 输入 30 30 118264581564861424
-# 输出 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaa
-
-# TODO
+'''
+    case1: 前导零的情况会影响答案 -> 0 * 4 = 0 其实 4 > k(k=2) 
+    case2: 数位DP -> 灵神模板
+'''
 def solve():
-    A, B, K = MI()
-    
-solve()
+    n, k = MI()
+    s = str(n)
 
+    @cache
+    def dfs(i: int, isLimit: bool, isNum: bool, mul: int) -> int:
+        if i == len(s):
+            return 1 if isNum and mul <= k else 0
+        ans = 0
+        if not isNum:
+            ans += dfs(i + 1, False, False, mul)   # 第i位不填数字
+        low = 0 if isNum else 1                    # 前导零的情况
+        up = int(s[i]) if isLimit else 9           
+        for d in range(low, up + 1):              
+            ans += dfs(i + 1, isLimit and d == up, True, mul * d)
+        return ans
+    res = dfs(0, True, False, 1)
+    print(res)
+
+
+def main():
+    solve()
+main()
 
