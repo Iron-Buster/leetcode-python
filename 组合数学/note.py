@@ -34,7 +34,7 @@ def PF(a):
     https://zhuanlan.zhihu.com/p/109700398
 '''
 # 0~10的阶乘，这里采用打表法，也可以单独写个函数用于求阶乘
-FACT = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800] 
+fac = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800] 
 '''
     a: 要求解的排列 可以是字符串
     n: 位数
@@ -47,7 +47,7 @@ def cantor(a: List[int], n: int) -> int:
         for j in range(i + 1, n):
             if a[j] < a[i]:
                 smaller += 1
-        x += FACT[n - i - 1] * smaller # 累加康托展开的每一项
+        x += fac[n - i - 1] * smaller # 累加康托展开的每一项
     print('hash: ' + str(x))    # 康拓展开值
     x += 1      # 最后+1是因为求的是排名，而前面的式子求解的是比该排列字典序小的排列有多少个
     print(x)
@@ -59,20 +59,21 @@ def cantor(a: List[int], n: int) -> int:
     https://zhuanlan.zhihu.com/p/109700398
 '''
 '''
-    x: 代表康拓值 比排名小1
+    x: 代表康托值 比排名小1
     n: 代表位数
 '''
 def decantor(x: int, n: int) -> None:
-    v = list(range(1, n + 1)) # 存放可选的数字，保证有序
-    ans = []    # 所求排列组合
+    x -= 1                      # x是排名 需要-1得到康拓值
+    v = list(range(1, n + 1))   # 存放可选的数字，保证有序
+    ans = []                    # 所求排列组合
     for i in range(n, 0, -1):
-        pos = x // FACT[i - 1]
-        x %= FACT[i - 1]
-        ans.append(v[pos]) 
-        del v[pos]
+        r = x % fac[i - 1]
+        t = x // fac[i - 1]
+        x = r
+        ans.append(v[t])
+        del v[t]
     print(ans)
 
 
-
 x = cantor([3,4,1,5,2], 5)
-decantor(x - 1, 5)
+decantor(x, 5)
