@@ -1,3 +1,47 @@
+from itertools import *
+from collections import *
+from math import *
+from cmath import *
+from heapq import *
+from functools import *
+from bisect import *
+from random import *
+from typing import *
+import random
+import sys
+import os
+from io import BytesIO, IOBase
+from copy import deepcopy
+import threading
+
+BUFSIZE = 4096
+MOD = 10 ** 9 + 7
+mod = 998244353
+inf = float('inf')
+def PF(a):
+    return [0] + list(accumulate(a))
+# 二分找右边界
+def rightBound(a: List[int], t: int) -> int:
+    l, r = 0, len(a) - 1
+    while l < r:
+        mid = (l + r) >> 1
+        if a[mid] < t:
+            l = mid + 1
+        else:
+            r = mid 
+    return -1 if a[l] < t else l
+    
+# 二分找左边界
+def leftBound(a: List[int], t: int) -> int:
+    l, r = 0, len(a) - 1
+    while l < r:
+        mid = (l + r + 1) >> 1
+        if a[mid] > t:
+            r = mid - 1
+        else:
+            l = mid
+    return -1 if a[l] > t else l
+
 # 2476. 二叉搜索树最近节点查询
 # 第 320 场周赛
 # Q2
@@ -14,8 +58,6 @@
 # 返回数组 answer 。
 # Definition for a binary tree node.
 
-from bisect import *
-from typing import List, Optional
 
 
 class TreeNode:
@@ -36,9 +78,9 @@ class Solution:
         dfs(root)
         ans = []
         for q in queries:
-            l = bisect_right(a, q)
-            mn = a[l - 1] if l else -1
-            r = bisect_left(a, q)
-            mx = a[r] if r < len(a) else -1
-            ans.append([mn, mx])
+            idx1 = leftBound(a, q)
+            minv = -1 if idx1 == -1 else a[idx1]            
+            idx2 = rightBound(a, q)
+            maxv = -1 if idx2 == -1 else a[idx2]        
+            ans.append([minv, maxv])
         return ans
