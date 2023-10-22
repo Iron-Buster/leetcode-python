@@ -20,8 +20,8 @@ mod = 998244353
 inf = float('inf')
 def PF(a):
     return [0] + list(accumulate(a))
-# 二分找右边界
-def rightBound(a: List[int], t: int) -> int:
+# 二分找右边界 返回最后一个大于等于t的下标
+def leftBound(a: List[int], t: int) -> int:
     l, r = 0, len(a) - 1
     while l < r:
         mid = (l + r + 1) >> 1
@@ -30,9 +30,9 @@ def rightBound(a: List[int], t: int) -> int:
         else:
             l = mid
     return -1 if a[l] > t else l
-    
-# 二分找左边界
-def leftBound(a: List[int], t: int) -> int:
+                                
+# 二分找左边界 返回第一个大于等于t的下标
+def rightBound(a: List[int], t: int) -> int:
     l, r = 0, len(a) - 1
     while l < r:
         mid = (l + r) >> 1
@@ -41,6 +41,7 @@ def leftBound(a: List[int], t: int) -> int:
         else:
             r = mid 
     return -1 if a[l] < t else l
+    
 
 # 2070. 每一个查询的最大美丽值
 # 第 65 场双周赛
