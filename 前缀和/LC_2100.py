@@ -67,5 +67,22 @@ def rightBound(a: List[int], t: int) -> int:
 # 请你返回一个数组，包含 所有 适合野炊的日子（下标从 0 开始）。返回的日子可以 任意 顺序排列
 
 class Solution:
+    '''
+        前缀后缀分解 
+        对于 i , a[i] >= time b[i] >= time 满足条件则i是合法的
+    '''
     def goodDaysToRobBank(self, security: List[int], time: int) -> List[int]:
-        pass
+        n = len(security)
+        a = [0] * n
+        b = [0] * n
+        for i in range(1, n):
+            if security[i] <= security[i - 1]:
+                a[i] = a[i - 1] + 1
+        for i in range(n - 2, -1, -1):
+            if security[i + 1] >= security[i]:
+                b[i] = b[i + 1] + 1
+        ans = []
+        for i in range(time, n - time):
+            if a[i] >= time and b[i] >= time:
+                ans.append(i)
+        return ans
