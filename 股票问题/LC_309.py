@@ -63,6 +63,9 @@ def rightBound(a: List[int], t: int) -> int:
 # 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
 
 class Solution:
+    '''
+        不限制交易次数
+    '''
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
         @cache

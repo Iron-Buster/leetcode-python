@@ -62,6 +62,9 @@ def rightBound(a: List[int], t: int) -> int:
 
 
 class Solution:
+    '''
+        至少k次交易
+    '''
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
         @cache

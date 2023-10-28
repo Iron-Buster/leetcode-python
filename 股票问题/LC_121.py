@@ -49,23 +49,25 @@ def rightBound(a: List[int], t: int) -> int:
     return -1 if a[l] < t else l
 
 
-# 188. 买卖股票的最佳时机 IV
+
+# 121. 买卖股票的最佳时机
 # 已解答
-# 困难
+# 简单
 # 相关标签
 # 相关企业
-# 给你一个整数数组 prices 和一个整数 k ，其中 prices[i] 是某支给定的股票在第 i 天的价格。
+# 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
 
-# 设计一个算法来计算你所能获取的最大利润。你最多可以完成 k 笔交易。也就是说，你最多可以买 k 次，卖 k 次。
+# 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
 
-# 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+# 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+
 
 
 class Solution:
     '''
         至少k次交易
     '''
-    def maxProfit(self, k: int, prices: List[int]) -> int:
+    def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
         @cache
         def dfs(i: int, j: int, state: int) -> int:
@@ -75,4 +77,5 @@ class Solution:
                 return max(dfs(i - 1, j, state), dfs(i - 1, j, 0) - prices[i])
             else:
                 return max(dfs(i - 1, j, state), dfs(i - 1, j - 1, 1) + prices[i])
-        return dfs(n - 1, k, 0)
+        ans = dfs(n - 1, 1, 0)
+        return 0 if ans < 0 else ans
