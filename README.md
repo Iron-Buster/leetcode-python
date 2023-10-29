@@ -1,4 +1,4 @@
 # leetcode-python
-当前是python写题最舒服哇!
+听说py3写题很快
 
 
