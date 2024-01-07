@@ -50,18 +50,36 @@ def rightBound(a: List[int], t: int) -> int:
 
 
 class Solution:
-    def canSeePersonsCount(self, h: List[int]) -> List[int]:
-        n = len(h)
-        stk = deque()
-        ans = [0] * n
-        for i in range(n-1,-1,-1):
-            while stk and h[stk[0]] <= h[i]:
-                stk.popleft()
-                ans[i] += 1
-            if stk:
-                ans[i] += 1
-            stk.appendleft(i)
-        return ans
+    def numberOfPowerfulInt(self, start: int, finish: int, limit: int, suffix: str) -> int:
+
+        def calc(s: str) -> int:
+
+            @cache
+            def dfs(i: int, v: int, isLmit: bool, isNum: bool) -> int:
+                if i == len(s):
+                    k = len(suffix)
+                    x = str(v)
+                    if x[-k:] != suffix:
+                        return 0
+                    return 1 if isNum else 0
+                ans = 0
+                if not isNum:
+                    ans += dfs(i + 1, v, False, False)
+
+                up = int(s[i]) if isLmit else 9
+                up = max(up, limit)
+                down = 0 if isNum else 1
+                for d in range(down, up + 1):
+                    v = v * 10 + d
+                    ans += dfs(i + 1, v, isLmit and d == up, True)
+                return ans
+
+            return dfs(0, 0, True, False)
+        return calc(str(finish)) - calc(str(start-1)) 
+    
 
 
-        
+if __name__ == '__main__':
+    ans = Solution().numberOfPowerfulInt(1, 6000, 4, "124")
+    print(ans)
+
